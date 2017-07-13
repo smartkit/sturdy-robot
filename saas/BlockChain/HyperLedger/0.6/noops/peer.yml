@@ -1,0 +1,32 @@
+# This is the default base file to config env and command
+# Notice that chaincode is executed inside docker in default net mode
+# https://github.com/yeasy/docker-compose-files
+
+# Depends on the hyperledger/fabric-peer image
+
+# This utilizes the noops as consensus
+# See https://github.com/hyperledger/fabric/blob/master/docs/dev-setup/devnet-setup.md#using-consensus-plugin for more details.
+
+version: '2'
+
+services:
+  vp:
+    image: hyperledger/fabric-peer:latest
+    restart: unless-stopped
+    environment:
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_NETWORKID=dev
+      - CORE_LOGGING_LEVEL=info  #critical, error, warning, notice, info, debug
+     #- CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_noops  # uncomment this to use specific network
+      # The following section enables pbft consensus
+      - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=noops  # noops, pbft
+      - CORE_NOOPS_BLOCK_TIMEOUT=2s
+      - CORE_NOOPS_BLOCK_WAIT=2s
+    expose:
+      - "7051"
+      - "7052"
+      - "7053"
+    volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: peer node start  # this repeats the default cmd to make sure
+  # command: sh -c "sleep 5; peer node start"  # peer node should have booting delay with CA

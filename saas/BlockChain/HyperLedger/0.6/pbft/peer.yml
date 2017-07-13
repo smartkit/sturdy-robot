@@ -1,0 +1,53 @@
+# This is the default base file to config env and command
+# Notice that chaincode is executed inside docker in default net mode
+# https://github.com/yeasy/docker-compose-files
+
+# Depends on the hyperledger/fabric-peer image.
+
+# This utilized the pbft as consensus
+# See https://github.com/hyperledger/fabric/blob/master/docs/dev-setup/devnet-setup.md#using-consensus-plugin for more details.
+
+version: '2'
+
+services:
+  vp:  # vp node no needing membersrvc
+    image: hyperledger/fabric-peer:latest
+   #image: yeasy/hyperledger-fabric-peer:0.6-dp
+   #image: hyperledger/fabric-peer:x86_64-0.6.1-preview
+   #image: ibmblockchain/fabric-peer:x86_64-0.6.1-preview
+    restart: unless-stopped
+    environment:
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      - CORE_PEER_NETWORKID=dev
+      - CORE_LOGGING_LEVEL=info  #critical, error, warning, notice, info, debug
+     #- CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_pbft  # uncomment this to use specific network
+      # The following section enables pbft consensus
+      - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft  # noops, pbft
+      - CORE_PBFT_GENERAL_MODE=batch  # batch. classic and sieve will be not supported again.
+      - CORE_PBFT_GENERAL_N=4
+      - CORE_PBFT_GENERAL_BATCHSIZE=2  # only useful when in batch mode
+      - CORE_PBFT_GENERAL_TIMEOUT_REQUEST=2s
+    expose:
+      - "7050"  # Rest
+      - "7051"  # Grpc
+      - "7052"  # Peer CLI
+      - "7053"  # Peer Event
+      - "7054"  # eCAP
+      - "7055"  # eCAA
+      - "7056"  # tCAP
+      - "7057"  # eCAA
+      - "7058"  # tlsCAP
+      - "7059"  # tlsCAA
+    volumes: # docker.sock is mapped as the default CORE_VM_ENDPOINT
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: peer node start  # this repeats the default cmd to make sure
+  # command: sh -c "sleep 5; peer node start"  # peer node should have booting delay with CA
+
+  vp_sec: # vp node needing membersrvc suppot
+    extends:
+      service: vp
+    environment:
+      - CORE_SECURITY_ENABLED=true
+      - CORE_PEER_PKI_ECA_PADDR=membersrvc0:7054
+      - CORE_PEER_PKI_TCA_PADDR=membersrvc0:7054
+      - CORE_PEER_PKI_TLSCA_PADDR=membersrvc0:7054
