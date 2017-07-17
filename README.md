@@ -1,5 +1,6 @@
 # sturdy-robot
-smartkit.ai
+
+Yet-another smartkit.ai project for healthcare.
 
 
 ### Overview
