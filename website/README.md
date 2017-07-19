@@ -1,9 +1,5 @@
 # sturdy-robot
-smartkit.ai
 
+smartkit.ai/dac
 
-### Reference
-
-http://dicom.nema.org/
-
-http://www.echojb.com/digital/2017/01/22/308086.html
+http://118.190.96.120/website/dac/
