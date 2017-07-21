@@ -1,0 +1,5 @@
+numpy
+scipy
+pillow
+tensorflow==1.2
+pydicom
