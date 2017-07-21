@@ -1,3 +1,8 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+@import 'libs/skel';
+
 /*
 	Read Only by HTML5 UP
 	html5up.net | @ajlkn
@@ -20,7 +25,7 @@
 	input[type="button"],
 	.button {
 		position: relative;
-		-ms-behavior: url("assets/js/ie/PIE.htc");
+		-ms-behavior: url('assets/js/ie/PIE.htc');
 	}
 
 /* Form */
@@ -29,32 +34,29 @@
 	input[type="password"],
 	input[type="email"],
 	select {
-		line-height: 2.75em;
+		line-height: _size(element-height);
 	}
 
 	input[type="checkbox"],
 	input[type="radio"] {
-		-moz-appearance: normal;
-		-webkit-appearance: normal;
-		-ms-appearance: normal;
-		appearance: normal;
-	}
+		@include vendor('appearance', 'normal');
 
-		input[type="checkbox"] + label,
-		input[type="radio"] + label {
+		& + label {
 			padding: 0 0 0 1.5em;
-		}
 
-			input[type="checkbox"] + label:before,
-			input[type="radio"] + label:before {
+			&:before {
 				display: none;
 			}
+		}
+	}
 
 /* Button */
 
-	input[type="submit"].alt,
-	input[type="reset"].alt,
-	input[type="button"].alt,
-	.button.alt {
-		border: solid 2px #e4e4e4;
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	.button {
+		&.alt {
+			border: solid _size(border-width) _palette(border2);
+		}
 	}
