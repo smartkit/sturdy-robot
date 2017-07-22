@@ -71,7 +71,7 @@ def unpool_with_argmax(updates, mask, ksize=[1, 2, 2, 1]):
 ######
 
 
-@ops.RegisterGradient("MaxPoolWithArgmax")
+@ops.RegisterGradient("skMaxPoolWithArgmax")
 def _MaxPoolGradWithArgmax(op, grad, unused_argmax_grad):
     return gen_nn_ops._max_pool_grad_with_argmax(op.inputs[0],
                                                  grad,
