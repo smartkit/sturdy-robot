@@ -1,6 +1,6 @@
 numpy
 scipy
 pillow
-tensorflow==1.2
+tensorflow-gpu==1.2
 pydicom
 skSegNetCMR
