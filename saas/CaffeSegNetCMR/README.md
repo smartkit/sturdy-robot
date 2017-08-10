@@ -9,6 +9,22 @@ A [Tensorflow](https://www.tensorflow.org/) implementation of [SegNet](https://m
 1. Python 3.5: Best to use the [Conda](https://www.continuum.io/downloads) distribution
 2. Tensorflow 0.12
 
+### nvidia-GPU
+
+sudo apt-get install libcupti-dev
+
+sudo dpkg -i /home/mini/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
+ 
+sudo apt-get update
+
+sudo apt-get install cuda
+
+sudo ldconfig /usr/local/cuda/lib64
+
+source activate py35
+
+pip install -r requirements.txt
+
 ## Todo
 1. Add code to run on your own data (currently there is only the training code present)
 
@@ -68,3 +84,7 @@ SegNetCMR: MIT license
 SunnyBrook Cardiac Data: Public Domain
 
 pydicom: MIT license
+
+### Troubleshoots
+
+https://www.google.ca/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ved=0ahUKEwiri9n9_czVAhWGOyYKHe6rDAoQFghXMAg&url=https%3A%2F%2Fhyunyoung2.github.io%2F2017%2F06%2F27%2FHow_To_Install_Tensorflow%2F&usg=AFQjCNG0DaVdvgLme8a70DsDAru8NWmMtQ
