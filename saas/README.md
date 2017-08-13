@@ -14,6 +14,8 @@ https://github.com/FNNDSC/pypx
 
 #### DeepLearning
 
-http://mi.eng.cam.ac.uk/projects/segnet/
+Caffe-SegNet: http://mi.eng.cam.ac.uk/projects/segnet/
 
-https://github.com/TimoSaemann/ENet
+Bayesian-SegNet: https://github.com/anlthms/whale-2015
+
+Caffe-ENet:https://github.com/TimoSaemann/ENet
