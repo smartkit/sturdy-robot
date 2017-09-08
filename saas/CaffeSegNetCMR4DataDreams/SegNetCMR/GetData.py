@@ -18,8 +18,8 @@ class GetData():
         image_dir = os.path.join(data_dir, "Images")
         for label_root, dir, files in os.walk(label_dir):
             for file in files:
-                # if not file.endswith((".png", ".jpg", ".gif", ".tiff", ".svg")):
-                #     continue
+                if not file.endswith((".png", ".jpg", ".gif")):
+                    continue
                 try:
                     folder = os.path.relpath(label_root, label_dir)
                     image_root = os.path.join(image_dir, folder)
