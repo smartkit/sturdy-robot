@@ -88,3 +88,11 @@ pydicom: MIT license
 ### Troubleshoots
 
 https://www.google.ca/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ved=0ahUKEwiri9n9_czVAhWGOyYKHe6rDAoQFghXMAg&url=https%3A%2F%2Fhyunyoung2.github.io%2F2017%2F06%2F27%2FHow_To_Install_Tensorflow%2F&usg=AFQjCNG0DaVdvgLme8a70DsDAru8NWmMtQ
+
+#### Tips
+
+mogrify -background black -format png "/Data/Training/Images/cancer_subset00/*.tiff"
+
+mogrify -background black -format png "/Data/Training/Labels/cancer_subset00/*.svg"
+
+mogrify -resize 50% Data/Training/Images/cancer_subset00/*.png
