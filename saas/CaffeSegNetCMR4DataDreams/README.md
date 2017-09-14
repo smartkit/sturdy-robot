@@ -44,6 +44,11 @@ git clone https://
 And start the training from the folder
 ```commandline
 cd /path/to/SegNetCMR
+
+python setup.py install
+
+sudo ldconfig /usr/local/cuda/lib64/
+
 python train.py
 ```
 
