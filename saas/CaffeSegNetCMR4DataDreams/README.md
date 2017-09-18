@@ -105,3 +105,8 @@ mogrify -background black -format png "/Data/Training/Labels/cancer_subset00/*.s
 mogrify -resize 50% Data/Training/Images/cancer_subset00/*.png
 
 for file in Data/Training/Images/cancer_subset00/*.png; do convert $file  -colorspace Gray $file;done
+
+
+#### References
+
+https://github.com/NVIDIA/DIGITS/tree/master/examples/medical-imaging
