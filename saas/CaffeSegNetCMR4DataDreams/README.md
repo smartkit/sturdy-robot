@@ -98,9 +98,9 @@ https://www.google.ca/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ve
 
 ImageMagick:
 
-mogrify -background black -format png "/Data/Training/Images/cancer_subset00/*.tiff"
+mogrify -background black -format png -depth 8  Data/Training/Images/cancer_subset00/*.tiff
 
-mogrify -background black -format png "/Data/Training/Labels/cancer_subset00/*.svg"
+mogrify -background black -format png -depth 8 Data/Training/Labels/cancer_subset00/*.svg
 
 mogrify -resize 50% Data/Training/Images/cancer_subset00/*.png
 
