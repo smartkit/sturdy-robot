@@ -106,6 +106,8 @@ mogrify -resize 50% Data/Training/Images/cancer_subset00/*.png
 
 for file in Data/Training/Images/cancer_subset00/*.png; do convert $file  -colorspace Gray $file;done
 
+find ./ -type f -name '*.svg' | xargs -I{} sed -i_old -n -e 's/polygon fill="none"/polygon fill="white"/g;p;' {}
+
 
 #### References
 
