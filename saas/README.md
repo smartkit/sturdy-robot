@@ -1,6 +1,23 @@
 # sturdy-robot
 smartkit.ai
 
+```
+----------------------------------------------------------
+# split data
+data = ...
+train, validation, test = split(data)
+
+# tune model hyperparameters
+parameters = ...
+for params in parameters:
+	model = fit(train, params)
+	skill = evaluate(model, validation)
+
+# evaluate final model for comparison with other models
+model = fit(train)
+skill = evaluate(model, test)
+----------------------------------------------------------
+```
 
 ### Reference
 
