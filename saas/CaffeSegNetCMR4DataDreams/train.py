@@ -4,6 +4,9 @@ import tensorflow as tf
 
 import SegNetCMR as sn
 
+from matplotlib import pyplot as plt
+from random import randint
+
 HAVE_GPU = False
 SAVE_INTERVAL = 2
 
@@ -99,6 +102,13 @@ def main():
                     saver.save(sess, CHECKPOINT_FL, global_step=step)
                     print("Session Saved")
                     print("================")
+                    #
+                    num = randint(0, images.shape[0])
+                    img = images[num]
+                    classification = sess.run(tf.argmax(y, 1), feed_dict={x: [img]})
+                    plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
+                    plt.show()
+                    print('NN predicted:', classification[0])
 
 
 if __name__ == '__main__':
