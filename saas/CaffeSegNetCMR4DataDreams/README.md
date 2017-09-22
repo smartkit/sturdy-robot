@@ -112,3 +112,7 @@ find ./ -type f -name '*.svg' | xargs -I{} sed -i_old -n -e 's/polygon fill="non
 #### References
 
 https://github.com/NVIDIA/DIGITS/tree/master/examples/medical-imaging
+
+https://machinelearningmastery.com/difference-test-validation-datasets/
+
+https://tensor-flow.com/validation-testing-model
