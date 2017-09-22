@@ -4,3 +4,6 @@ pillow
 tensorflow==1.2
 pydicom
 skSegNetCMR
+sklearn
+opencv-contrib-python
+matplotlib==1.4.3

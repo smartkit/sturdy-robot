@@ -4,7 +4,10 @@ import tensorflow as tf
 
 import SegNetCMR as sn
 
-from matplotlib import pyplot as plt
+import matplotlib
+# matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
 from random import randint
 
 HAVE_GPU = False
@@ -102,10 +105,10 @@ def main():
                     saver.save(sess, CHECKPOINT_FL, global_step=step)
                     print("Session Saved")
                     print("================")
-                    #
+                    #predict...
                     num = randint(0, images.shape[0])
                     img = images[num]
-                    classification = sess.run(tf.argmax(y, 1), feed_dict={x: [img]})
+                    classification = sess.run(tf.argmax(labels, 1), feed_dict={images: [img]})
                     plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
                     plt.show()
                     print('NN predicted:', classification[0])
