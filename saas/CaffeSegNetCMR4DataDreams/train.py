@@ -4,17 +4,18 @@ import tensorflow as tf
 
 import SegNetCMR as sn
 
-import matplotlib
-# matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
+# import matplotlib
+# # matplotlib.use('TkAgg')
+# import matplotlib.pyplot as plt
 
 from random import randint
 
 HAVE_GPU = False
 SAVE_INTERVAL = 2
 
-TRAINING_DIR = './Data/Training'
+TRAINING_DIR = './Data/Train'
 TEST_DIR = './Data/Test'
+VALID_DIR = './Data/Valid'
 
 RUN_NAME = "Run3x3"
 CONV_SIZE = 3
@@ -34,6 +35,7 @@ CHECKPOINT_FL = os.path.join(LOG_DIR, CHECKPOINT_FN)
 def main():
     training_data = sn.GetData(TRAINING_DIR)
     test_data = sn.GetData(TEST_DIR)
+    # valid_data = sn.GetData(VALID_DIR)
 
     g = tf.Graph()
 
@@ -47,6 +49,16 @@ def main():
 
         loss = sn.loss_calc(logits=logits, labels=labels)
 
+        #TODO: Optimizer.
+        optimizer = tf.train.AdamOptimizer(1e-4).minimize(loss)
+        #TODO: drop-out during training
+
+        # Predictions for the training, validation, and test data.
+        train_prediction = tf.nn.softmax(logits)
+        print("train_prediction:",train_prediction)
+        # valid_prediction = tf.nn.softmax(model(tf_valid_dataset, False))
+        # test_prediction = tf.nn.softmax(model(tf_test_dataset, False))
+
         train_op, global_step = sn.training(loss=loss, learning_rate=1e-04)
 
         accuracy = sn.evaluation(logits=logits, labels=labels)
@@ -55,13 +67,15 @@ def main():
 
         init = tf.global_variables_initializer()
 
-        saver = tf.train.Saver([x for x in tf.global_variables() if 'Adam' not in x.name])
+        # saver = tf.train.Saver([x for x in tf.global_variables() if 'Adam' not in x.name])
+        saver = tf.train.Saver([x for x in tf.global_variables()])
 
         sm = tf.train.SessionManager()
 
         with sm.prepare_session("", init_op=init, saver=saver, checkpoint_dir=LOG_DIR) as sess:
 
-            sess.run(tf.variables_initializer([x for x in tf.global_variables() if 'Adam' in x.name]))
+            # sess.run(tf.variables_initializer([x for x in tf.global_variables() if 'Adam' in x.name]))
+            sess.run(tf.variables_initializer([x for x in tf.global_variables()]))
 
             train_writer = tf.summary.FileWriter(LOG_DIR + "/Train", sess.graph)
             test_writer = tf.summary.FileWriter(LOG_DIR + "/Test")
@@ -105,13 +119,6 @@ def main():
                     saver.save(sess, CHECKPOINT_FL, global_step=step)
                     print("Session Saved")
                     print("================")
-                    #predict...
-                    num = randint(0, images.shape[0])
-                    img = images[num]
-                    classification = sess.run(tf.argmax(labels, 1), feed_dict={images: [img]})
-                    plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
-                    plt.show()
-                    print('NN predicted:', classification[0])
 
 
 if __name__ == '__main__':
