@@ -35,7 +35,7 @@ CHECKPOINT_FL = os.path.join(LOG_DIR, CHECKPOINT_FN)
 def main():
     training_data = sn.GetData(TRAINING_DIR)
     test_data = sn.GetData(TEST_DIR)
-    # valid_data = sn.GetData(VALID_DIR)
+    val_data = sn.GetData(VALID_DIR)
 
     g = tf.Graph()
 
@@ -119,6 +119,11 @@ def main():
                     saver.save(sess, CHECKPOINT_FL, global_step=step)
                     print("Session Saved")
                     print("================")
+#@see: https://stackoverflow.com/questions/42211833/tensorflow-how-to-predict-with-trained-model-on-a-different-test-dataset
+                    ckpt = tf.train.get_checkpoint_state('./model/')
+                    saver.restore(sess, ckpt.model_checkpoint_path)
+                    feed_dict = {training_data: images_batch}
+                    predictions = sess.run([test_prediction], feed_dict)
 
 
 if __name__ == '__main__':
