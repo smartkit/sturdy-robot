@@ -114,6 +114,7 @@ find ./ -type f -name '*.svg' | xargs -I{} sed -i_old -n -e 's/polygon fill="non
 | Train/Test Dataset |Train accuracy|Test accuracy|Train loss|Test loss|Epoch|
 | -------------|-------------|------------- |-------------|-------------| -----:|
 | 100/24 |0.966|0.649|0.388|0.687|1000|
+| 100/24 |0.980|0.790|0.555|0.529|2000|
 
 
 
