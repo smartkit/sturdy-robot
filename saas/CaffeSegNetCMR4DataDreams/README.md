@@ -109,6 +109,14 @@ for file in Data/Training/Images/cancer_subset00/*.png; do convert $file  -color
 find ./ -type f -name '*.svg' | xargs -I{} sed -i_old -n -e 's/polygon fill="none"/polygon fill="white"/g;p;' {}
 
 
+#### Train,Test results
+
+| Train/Test Dataset |Train accuracy|Test accuracy|Train loss|Test loss|Epoch|
+| -------------|-------------|------------- |-------------|-------------| -----:|
+| 100/24 |0.966|0.649|0.388|0.687|1000|
+
+
+
 #### References
 
 https://github.com/NVIDIA/DIGITS/tree/master/examples/medical-imaging
