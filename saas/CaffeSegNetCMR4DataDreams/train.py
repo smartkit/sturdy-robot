@@ -120,10 +120,10 @@ def main():
                     print("Session Saved")
                     print("================")
 #@see: https://stackoverflow.com/questions/42211833/tensorflow-how-to-predict-with-trained-model-on-a-different-test-dataset
-                    ckpt = tf.train.get_checkpoint_state('./model/')
-                    saver.restore(sess, ckpt.model_checkpoint_path)
-                    feed_dict = {training_data: images_batch}
-                    predictions = sess.run([test_prediction], feed_dict)
+                    # ckpt = tf.train.get_checkpoint_state('./model/')
+                    # saver.restore(sess, ckpt.model_checkpoint_path)
+                    # feed_dict = {training_data: images_batch}
+                    # predictions = sess.run([test_prediction], feed_dict)
 
 
 if __name__ == '__main__':
