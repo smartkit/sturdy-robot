@@ -44,7 +44,7 @@ def main():
         images, labels, is_training = sn.placeholder_inputs(batch_size=BATCH_SIZE)
 
         logits = sn.inference(images=images, is_training=is_training, conv_size=CONV_SIZE, batch_norm_decay_rate=BATCH_NORM_DECAY_RATE, have_gpu=HAVE_GPU)
-
+        # print("logits:",logits);
         sn.add_output_images(images=images, logits=logits, labels=labels)
 
         loss = sn.loss_calc(logits=logits, labels=labels)
@@ -54,7 +54,7 @@ def main():
         #TODO: drop-out during training
 
         # Predictions for the training, validation, and test data.
-        train_prediction = tf.nn.softmax(logits)
+        train_prediction = tf.equal(tf.argmax(logits, 3), labels)
         print("train_prediction:",train_prediction)
         # valid_prediction = tf.nn.softmax(model(tf_valid_dataset, False))
         # test_prediction = tf.nn.softmax(model(tf_test_dataset, False))
@@ -124,6 +124,31 @@ def main():
                     # saver.restore(sess, ckpt.model_checkpoint_path)
                     # feed_dict = {training_data: images_batch}
                     # predictions = sess.run([test_prediction], feed_dict)
+#metrics,@see: https://stackoverflow.com/questions/35365007/tensorflow-precision-recall-f1-score-and-confusion-matrix
+                # @see: https://gist.github.com/Mistobaan/337222ac3acbfc00bdac
+                #     predicted = tf.round(tf.nn.sigmoid(logits))
+                    predicted = tf.cast(tf.equal(tf.argmax(logits, 3), labels),tf.int64)
+                    actual = labels
+
+                    # Count true positives, true negatives, false positives and false negatives.
+                    tp = tf.count_nonzero(predicted * actual)
+                    tn = tf.count_nonzero((predicted - 1) * (actual - 1))
+                    fp = tf.count_nonzero(predicted * (actual - 1))
+                    fn = tf.count_nonzero((predicted - 1) * actual)
+                    print("tp,tn,fp,fn:",tp,tn,fp,fn)
+
+                    # Calculate accuracy, precision, recall and F1 score.
+                    accuracy = (tp + tn) / (tp + fp + fn + tn)
+                    precision = tp / (tp + fp)
+                    recall = tp / (tp + fn)
+                    fmeasure = (2 * precision * recall) / (precision + recall)
+                    print("accuracy,precision,recall,fmeature:", accuracy, precision, recall, fmeasure)
+
+                    # Add metrics to TensorBoard.
+                    tf.summary.scalar('Accuracy', accuracy)
+                    tf.summary.scalar('Precision', precision)
+                    tf.summary.scalar('Recall', recall)
+                    tf.summary.scalar('f-measure', fmeasure)
 
 
 if __name__ == '__main__':
