@@ -98,15 +98,41 @@ https://www.google.ca/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ve
 
 ImageMagick:
 
+TIFF to PNG:
+
+```
 mogrify -background black -format png -depth 8  Data/Training/Images/cancer_subset00/*.tiff
+```
+SVG to PNG:
 
+```
 mogrify -background black -format png -depth 8 Data/Training/Labels/cancer_subset00/*.svg
+```
 
+Resize:
+
+```
 mogrify -resize 50% Data/Training/Images/cancer_subset00/*.png
+```
 
+GrayScale
+
+```
 for file in Data/Training/Images/cancer_subset00/*.png; do convert $file  -colorspace Gray $file;done
+```
 
+SVG fill replace:
+
+```
 find ./ -type f -name '*.svg' | xargs -I{} sed -i_old -n -e 's/polygon fill="none"/polygon fill="white"/g;p;' {}
+```
+
+Gray to RGB
+
+```
+mogrify -type TrueColorMatte -define png:color-type=6  /Volumes/UUI/labels/normal/*.png
+
+```
 
 
 #### Train,Test results
