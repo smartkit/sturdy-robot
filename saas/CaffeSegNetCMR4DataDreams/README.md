@@ -133,6 +133,16 @@ Gray to RGB
 mogrify -type TrueColorMatte -define png:color-type=6  /Volumes/UUI/labels/normal/*.png
 
 ```
+Rotate 90
+
+```
+mogrify -rotate 90 /Volumes/UUI/images/rotate90/*.png
+```
+Rename with prefix
+
+```
+for filename in *.png; do mv "$filename" "prefix_$filename"; done;
+```
 
 
 #### Train,Test results
