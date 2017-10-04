@@ -143,6 +143,10 @@ Rename with prefix
 ```
 for filename in *.png; do mv "$filename" "prefix_$filename"; done;
 ```
+Flip
+
+Flop
+
 
 
 #### Train,Test results
