@@ -55,6 +55,7 @@ def main():
 
         # saver = tf.train.Saver([x for x in tf.global_variables()])
         saver = tf.train.import_meta_graph(ROOT_LOG_DIR+"/"+RUN_NAME+"/"+CHECKPOINT_FN+"-10.meta")
+        # saver.restore(sess, tf.train.latest_checkpoint('./'))
 
         sm = tf.train.SessionManager()
 
@@ -62,8 +63,8 @@ def main():
         with sm.prepare_session("", init_op=init, saver=saver, checkpoint_dir=LOG_DIR) as sess:
 
             saver.restore(sess, tf.train.latest_checkpoint(ROOT_LOG_DIR+"/"+RUN_NAME))
-            v_images=[]
-            image = cv2.imread("./Data/Training/Images/normal/normal1.ndpi.16.5702_35104.2048x2048.png")
+            v_images = []
+            image = cv2.imread("/Users/yangboz/git/sturdy-robot/saas/CaffeSegNetCMR4DataDreams/Data/Train/Images/2017-06-09_18.08.16.ndpi.16.14788_15256.2048x2048.png")
             # Resizing the image to our desired size and
             # preprocessing will be done exactly as done during training
             image = cv2.resize(image, (256, 256), cv2.INTER_LINEAR)
@@ -77,12 +78,12 @@ def main():
 
 
             graph = tf.get_default_graph()
-
-            y_pred = graph.get_tensor_by_name("unpool:0")
+            print("graph.get_operations:",len(graph.get_operations()),",:",graph.get_operations())
+            y_pred = graph.get_tensor_by_name("Placeholder_1_1")
 
             ## Let's feed the images to the input placeholders
-            x= graph.get_tensor_by_name("x:0")
-            y_true = graph.get_tensor_by_name("y_true:0")
+            x = graph.get_tensor_by_name("update_ops:0")
+            y_true = graph.get_tensor_by_name("trainable_variables:0")
             y_test_images = np.zeros((1, 2))
 
             feed_dict_testing = {x: x_batch, y_true: y_test_images}
