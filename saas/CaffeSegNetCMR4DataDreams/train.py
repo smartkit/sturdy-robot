@@ -27,7 +27,7 @@ CHECKPOINT_FN = 'model.ckpt'
 #Start off at 0.9, then increase.
 BATCH_NORM_DECAY_RATE = 0.9
 
-MAX_STEPS = 10
+MAX_STEPS = 1000
 BATCH_SIZE = 1
 
 LOG_DIR = os.path.join(ROOT_LOG_DIR, RUN_NAME)
@@ -183,7 +183,8 @@ def main():
                     # print("dense_prediction:",dense_prediction)
                     # print("im:", im)
 
-                    pred = tf.argmax(logits, dimension=3)
+                    pred = tf.argmax(logits, dimension=-1)
+                    # pred = tf.nn.softmax(logits=logits, dim=-1)[..., 1]
 
                     # Make a queue of file names including all the JPEG images files in the relative
                     # image directory.
@@ -203,6 +204,13 @@ def main():
                     # then use in training.
                     pred_image = tf.image.decode_png(image_file, channels=3)
 
+                    # Write file result
+                    text_file = open("smartkit.ai.txt", "w")
+                    text_file.write(fnames_batch[0])
+                    text_file.write("\t")
+                    text_file.write(" F")
+                    text_file.close()
+
                     segmentation, np_image = sess.run([pred, pred_image])
 
 
@@ -212,6 +220,7 @@ def main():
                     # plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
                     # plt.show()
                     print('NN predicted:', classification)
+                    layer_fc2 = tf.Graph.get_tensor_by_name("stride/slice:0")
                     y_pred = tf.nn.softmax(layer_fc2, name="y_pred")
                     y_pred_cls = tf.argmax(y_pred, dimension=1)
                     return classification
