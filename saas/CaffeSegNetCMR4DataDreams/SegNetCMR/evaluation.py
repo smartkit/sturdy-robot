@@ -13,12 +13,3 @@ def evaluation(logits, labels):
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     tf.summary.scalar('accuracy', accuracy)
     return accuracy
-
-def prediction(sess,logits, labels):
-    # num = randint(0, images.shape[0])
-    # img = images[num]
-    classification = sess.run(tf.argmax(logits, 3), feed_dict={images: [img]})
-    # plt.imshow(img.reshape(28, 28), cmap=plt.cm.binary)
-    # plt.show()
-    print('NN predicted:', classification)
-    return classification

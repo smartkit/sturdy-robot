@@ -6,14 +6,15 @@ import numpy as np
 import scipy.misc
 
 class GetData():
-    def __init__(self, data_dir):
+    def __init__(self, data_dir,name):
         images_list =[]
         labels_list = []
+        fnames_list = []
 
         self.source_list = []
 
         examples = 0
-        print("loading images")
+        print("loading images for ",name)
         label_dir = os.path.join(data_dir, "Labels")
         image_dir = os.path.join(data_dir, "Images")
         for label_root, dir, files in os.walk(label_dir):
@@ -31,13 +32,15 @@ class GetData():
                     images_list.append(image[...,0][...,None]/255)
                     labels_list.append((label[...,0]>1).astype(np.int64))
                     examples = examples + 1
+                    fnames_list.append(file)
                 except Exception as e:
                     print(e)
-        print("finished loading images")
+        print("finished loading images for ",name)
         self.examples = examples
-        print("Number of examples found: ", examples)
+        print("Number of images found: ", examples)
         self.images = np.array(images_list)
         self.labels = np.array(labels_list)
+        self.fnames = np.array(fnames_list)
 
     def next_batch(self, batch_size):
 
@@ -49,4 +52,4 @@ class GetData():
         examples_idx = self.source_list[:batch_size]
         del self.source_list[:batch_size]
 
-        return self.images[examples_idx,...], self.labels[examples_idx,...]
+        return self.images[examples_idx,...], self.labels[examples_idx,...],self.fnames[examples_idx,...]
